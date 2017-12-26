@@ -30,53 +30,8 @@ type ConfigurationFile struct {
 	Miners          []MinerConfig // An array of the
 }
 
-type DataCurrent struct {
-	a		float32
-	rs		float32
-}
-
-type CurrentStats struct {
-	profitability	float32
-     	data		[]DataCurrent
-	data		int
-       	name		string
-       	suffix		string
-       	algo		int
-}
-
-type PastStats struct {
-     	data		[]DataPast
-       	algo		int
-}
-
-type Payments struct {
-	amount		float32
-	fee		float32
-       	TXID		string
-       	time		int64
-}
-	
-//Data inside result struct
-type ResultData struct {
-	current		[]CurrentStats
-	nh_wallet	bool
-      	attack_written_off	int
-      	past		[]PastStats
-      	payments	[]Payments
-      	attack_amount	int
-      	addr		string
-      	attack_repaid	int
-}
-
-//Nicehash stats.provider.ex json
-type Statsproviderex struct {
-	result		[]ResultData
-	method		string
-}
-
 //Config is the global Config variable
 var Config ConfigurationFile
-var nicehash Statsproviderex
 //ReadConfig - read and parse the config file
 func ReadConfig() (configFile ConfigurationFile) {
 	//get binary dir
@@ -111,34 +66,6 @@ func ReadConfig() (configFile ConfigurationFile) {
 		log.Notice("Pushover notification is ENABLED")
 		log.Notice("Pushover Token:", configFile.PushoverToken)
 		log.Notice("Pushover User:", configFile.PushoverUser)
-	}
-
-	return
-}
-func nicehasher() (nicehashFile nicehash) {
-	//get binary dir
-	//os.Args doesn't work the way we want with "go run". You can use next line
-	//for local dev, but use the original for production.
-	dir, err := filepath.Abs("./")
-	//dir, err := filepath.Abs(filepath.Dir(os.Args[0]))
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	log.Notice("Reading file nicehash.json...")
-	file := dir + "/nicehash.json"
-
-	configFileContent, err := ioutil.ReadFile(file)
-	if err != nil {
-		log.Error("Trying to read file nicehash.json, but:", err)
-		os.Exit(1)
-	}
-
-	log.Notice("Parsing nicehash file...")
-	err = json.Unmarshal(configFileContent, &configFile)
-	if err != nil {
-		log.Error("Parsing JSON content, but:", err)
-		os.Exit(2)
 	}
 
 	return
