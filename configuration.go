@@ -70,14 +70,14 @@ type ResultData struct {
 }
 
 //Nicehash stats.provider.ex json
-type statsproviderex struct {
+type Statsproviderex struct {
 	result		[]ResultData
 	method		string
 }
 
 //Config is the global Config variable
 var Config ConfigurationFile
-var nicehash statsproviderex
+var nicehash Statsproviderex
 //ReadConfig - read and parse the config file
 func ReadConfig() (configFile ConfigurationFile) {
 	//get binary dir
