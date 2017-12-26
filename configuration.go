@@ -31,12 +31,14 @@ type ConfigurationFile struct {
 }
 
 type DataCurrent struct {
-
+	a		float32
+	rs		float32
 }
 
 type CurrentStats struct {
 	profitability	float32
      	data		[]DataCurrent
+	data		int
        	name		string
        	suffix		string
        	algo		int
