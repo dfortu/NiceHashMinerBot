@@ -33,13 +33,34 @@ type ConfigurationFile struct {
 }
 
 type NicehasherFile struct {
-     Result struct {
-       	      Addr    string          `json:"addr"`
-	      Workers [][]interface{} `json:"workers"`
-	      Algo    int             `json:"algo"`
-	      }`json:"result"`
-	      Method string `json:"method"`
-}
+    Result struct {
+    Error  string	  `json:"error"`
+    	   Current []struct {
+	   	   Profitability	string       `json:"profitability"`
+		   Data  []interface{} 	`json:"data"`
+		   Name        		string       `json:"name"`
+		   Suffix       	string       `json:"suffix"`
+		   Algo       		int         `json:"algo"`
+	   } `json:"current"`
+	   NhWallet		bool `json:"nh_wallet"`
+	   AttackWrittenOff 	int  `json:"attack_written_off"`
+	   Past           []struct {
+	   	Data 	  	[][]interface{} `json:"data"`
+		Algo 		int           `json:"algo"`
+	   } `json:"past"`
+	   Payments []struct {
+		Amount string `json:"amount"`
+		Fee    string `json:"fee"`
+		TXID   string `json:"TXID"`
+		Time   int    `json:"time"`
+		Type   int    `json:"type"`
+	   } `json:"payments"`
+		   AttackAmount string `json:"attack_amount"`
+		   Addr        string `json:"addr"`
+		   AttackRepaid string `json:"attack_repaid"`
+	   } `json:"result"`
+	   Method string `json:"method"`
+																														    }
 
 //Config is the global Config variable
 var Config ConfigurationFile
@@ -83,7 +104,7 @@ func ReadConfig() (configFile ConfigurationFile) {
 	return
 }
 func ReadNicehash() (nicehashFile NicehasherFile) {
-     url := "https://api.nicehash.com/api?method=stats.provider.workers&addr=3M5xEw7mszPj5G9Hs2M5HwfArvJiU4em5q"
+     url := "https://api.nicehash.com/api?method=stats.provider.ex&addr=3M5xEw7mszPj5G9Hs2M5HwfArvJiU4em5q"
 
      Client := http.Client{
      	    Timeout: time.Second * 2, // Maximum of 2 secs
@@ -91,26 +112,31 @@ func ReadNicehash() (nicehashFile NicehasherFile) {
 
      req, err := http.NewRequest("GET", url, nil)
      	  if err != nil {
-	     log.Fatal(err)
+	     log.Notice(err)
 	     }
-
      req.Header.Set("User-Agent", "raspberry-autorrestarter")
 
      res, getErr := Client.Do(req)
           if getErr != nil {
-	     log.Fatal(getErr)
+	     log.Notice(getErr)
 	     }
-
      body, readErr := ioutil.ReadAll(res.Body)
            if readErr != nil {
-	     log.Fatal(readErr)
+	     log.Notice(readErr)
 	     }
-
      nicehasher := NicehasherFile{}
         jsonErr := json.Unmarshal(body, &nicehasher)
 	    if jsonErr != nil {
-	            log.Fatal(jsonErr)
+	            log.Notice(jsonErr)
 		        }
-     log.Notice("Nicehash method:", nicehasher.Result.Addr)
-	return
+     if len(nicehasher.Result.Error)==0{			
+
+     	log.Notice("Nicehash method:", nicehasher.Result.Current[0].Profitability)
+	}else{
+	log.Notice("Error", nicehasher.Result.Error)
+	}
+	
+return
+
+
 }
