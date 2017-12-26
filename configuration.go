@@ -54,7 +54,7 @@ type Payments struct {
 	fee		float32
        	TXID		string
        	time		int64
-       	type		int
+       	-type		int
 }
 	
 //Data inside result struct
@@ -116,7 +116,7 @@ func ReadConfig() (configFile ConfigurationFile) {
 
 	return
 }
-func nicehash() (nicehashFile nicehash) {
+func nicehasher() (nicehashFile nicehash) {
 	//get binary dir
 	//os.Args doesn't work the way we want with "go run". You can use next line
 	//for local dev, but use the original for production.
