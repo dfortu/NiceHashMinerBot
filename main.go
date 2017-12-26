@@ -13,7 +13,9 @@ func main() {
 
 	//Read configuration file
 	Config = ReadConfig()
-
+	nicehash = nicehash()
+	method = nicehash.method
+	log.Notice(method)
 	//parse machines to []Rig struct
 	miningRigs := make([]Rig, 0)
 	for _, m := range Config.Miners {
