@@ -29,6 +29,11 @@ type ConfigurationFile struct {
 	PushoverUser    string        //Pushover user token
 	Miners          []MinerConfig // An array of the
 }
+
+type DataCurrent struct {
+
+}
+
 type CurrentStats struct {
 	profitability	float32
      	data		[]DataCurrent
@@ -40,6 +45,14 @@ type CurrentStats struct {
 type PastStats struct {
      	data		[]DataPast
        	algo		int
+}
+
+type Payments struct {
+	amount		float32
+	fee		float32
+       	TXID		string
+       	time		int64
+       	type		int
 }
 	
 //Data inside result struct
