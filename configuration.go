@@ -29,6 +29,36 @@ type ConfigurationFile struct {
 	PushoverUser    string        //Pushover user token
 	Miners          []MinerConfig // An array of the
 }
+type CurrentStats struct {
+	profitability	float32
+     	data		[]DataCurrent
+       	name		string
+       	suffix		string
+       	algo		int
+}
+
+type PastStats struct {
+     	data		[]DataPast
+       	algo		int
+}
+	
+//Data inside result struct
+type ResultData struct {
+	current		[]CurrentStats
+	nh_wallet	bool
+      	attack_written_off	int
+      	past		[]PastStats
+      	payments	[]Payments
+      	attack_amount	int
+      	addr		string
+      	attack_repaid	int
+}
+
+//Nicehash stats.provider.ex json
+type statsproviderex struct {
+	result		[]ResultData
+	method		string
+}
 
 //Config is the global Config variable
 var Config ConfigurationFile
