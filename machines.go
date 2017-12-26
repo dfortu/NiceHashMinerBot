@@ -31,7 +31,16 @@ func CheckMachines(r []Rig) {
 	log.Notice("Checking machines DONE\n----------------------")
 	log.Notice("Starting timer")
 }
+func (r *Rig) NiceHashCheck() bool {
+	out, _ := exec.Command("ping", r.ip, "-c 3", "-i 3", "-w 10").Output()
+	if strings.Contains(string(out), "100% packet loss") {
+		log.Error("HOST NOT FOUND: ", r.name, r.ip)
+		return false
+	}
 
+	log.Notice("HOST IS ONLINE: ", r.name)
+	return true
+}
 //Ping IP from Linux shell
 func (r *Rig) Ping() bool {
 	out, _ := exec.Command("ping", r.ip, "-c 3", "-i 3", "-w 10").Output()
