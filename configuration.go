@@ -54,7 +54,6 @@ type Payments struct {
 	fee		float32
        	TXID		string
        	time		int64
-       	-type		int
 }
 	
 //Data inside result struct
