@@ -13,7 +13,7 @@ func main() {
 
 	//Read configuration file
 	Config = ReadConfig()
-	nicehash = nicehash()
+	nicehash = nicehasher()
 	method = nicehash.method
 	log.Notice(method)
 	//parse machines to []Rig struct
